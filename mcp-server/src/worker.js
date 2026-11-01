@@ -13,41 +13,52 @@ export default {
   async fetch(request) {
     const url = new URL(request.url);
 
-    // OpenAI domain verification
-    if (url.pathname === '/.well-known/openai-apps-challenge') {
+    // OpenAI Domain Verification Challenge
+    if (
+      url.pathname === '/.well-known/openai-apps-challenge' &&
+      request.method === 'GET'
+    ) {
       return new Response(OPENAI_APPS_CHALLENGE, {
         status: 200,
         headers: {
-          'content-type': 'text/plain; charset=utf-8',
-          'cache-control': 'no-store'
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-store'
         }
       });
     }
 
-    // Health check
+    // Health Check
     if (url.pathname === '/health') {
       return new Response(
         JSON.stringify({
           status: 'ok',
           service: 'wowseru-ai-affiliate-storyboard-mcp'
         }),
-        { headers: JSON_HEADERS }
+        {
+          status: 200,
+          headers: JSON_HEADERS
+        }
       );
     }
 
-    // MCP endpoint
+    // MCP Endpoint
     if (url.pathname !== '/mcp') {
-      return new Response('Not found', { status: 404 });
+      return new Response('Not found', {
+        status: 404
+      });
     }
 
     if (request.method !== 'POST') {
       return new Response('Method not allowed', {
         status: 405,
-        headers: { allow: 'POST' }
+        headers: {
+          'Allow': 'POST'
+        }
       });
     }
 
-    const contentType = request.headers.get('content-type') || '';
+    const contentType =
+      request.headers.get('content-type') || '';
 
     if (!contentType.includes('application/json')) {
       return new Response('Expected application/json', {
@@ -78,8 +89,13 @@ export default {
 
     const response = await handleRpc(message);
 
-    if (response === null || message.id === undefined) {
-      return new Response(null, { status: 202 });
+    if (
+      response === null ||
+      message.id === undefined
+    ) {
+      return new Response(null, {
+        status: 202
+      });
     }
 
     return new Response(JSON.stringify(response), {
