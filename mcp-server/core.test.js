@@ -28,9 +28,17 @@ test('positive: manifest calculates total duration', () => {
   assert.equal(result.deliverables.panelsPerStoryboard, 6);
 });
 
-test('positive: tools/list advertises the three expected tools', async () => {
+test('positive: tools/list advertises all tools with explicit safety annotations', async () => {
   const result = await handleRpc({ jsonrpc: '2.0', id: 1, method: 'tools/list' });
-  assert.deepEqual(result.result.tools.map(t => t.name), ['validate_product_brief','validate_production_output','build_production_manifest']);
+  const tools = result.result.tools;
+  assert.deepEqual(tools.map(t => t.name), ['validate_product_brief','validate_production_output','build_production_manifest']);
+  for (const tool of tools) {
+    assert.deepEqual(tool.annotations, {
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: false
+    }, `${tool.name} must publish all three explicit annotation booleans`);
+  }
 });
 
 test('negative: missing product facts are not marked concept-ready', () => {
