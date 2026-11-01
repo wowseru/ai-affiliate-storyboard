@@ -7,7 +7,7 @@ const JSON_HEADERS = {
 };
 
 const OPENAI_APPS_CHALLENGE =
-  'gKMWMV-1bHanRjiUVfLPJ0bW4PixPAl6yULnoWOCFg8';
+  '8a2MsGKE7kdsxuI3lpKoGk1oWBypoZ5Z6F89v5D0pPQ';
 
 export default {
   async fetch(request) {
