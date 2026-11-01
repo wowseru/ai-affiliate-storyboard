@@ -1,7 +1,0 @@
-name = "wowseru-ai-affiliate-storyboard-mcp"
-main = "src/worker.js"
-compatibility_date = "2026-10-31"
-workers_dev = true
-
-[observability]
-enabled = true
