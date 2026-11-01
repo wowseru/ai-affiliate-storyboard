@@ -10,11 +10,11 @@ export const PROTOCOL_VERSION = '2025-03-26';
 // MCP TOOL ANNOTATIONS
 // ==========================================
 
-export const TOOL_ANNOTATIONS = {
+export const TOOL_ANNOTATIONS = Object.freeze({
   readOnlyHint: true,
   destructiveHint: false,
   openWorldHint: false
-};
+});
 
 // ==========================================
 // TOOL DEFINITIONS
@@ -29,28 +29,47 @@ export const TOOL_DEFINITIONS = [
     inputSchema: {
       type: 'object',
       properties: {
-        brandProductName: { type: 'string' },
-        productDetailsUSP: { type: 'string' },
-        targetAudience: { type: 'string' },
+        brandProductName: {
+          type: 'string'
+        },
+        productDetailsUSP: {
+          type: 'string'
+        },
+        targetAudience: {
+          type: 'string'
+        },
         narration: {
           type: 'string',
           enum: ['yes', 'no', 'Ya', 'Tidak']
         },
-        wardrobe: { type: 'string' },
-        location: { type: 'string' },
-        language: { type: 'string' },
-        productLink: { type: 'string' },
+        wardrobe: {
+          type: 'string'
+        },
+        location: {
+          type: 'string'
+        },
+        language: {
+          type: 'string'
+        },
+        productLink: {
+          type: 'string'
+        },
         mode: {
           type: 'string',
           enum: ['Normal', 'Deep Research']
         },
-        hasCharacterReference: { type: 'boolean' },
-        hasProductReference: { type: 'boolean' }
+        hasCharacterReference: {
+          type: 'boolean'
+        },
+        hasProductReference: {
+          type: 'boolean'
+        }
       },
       required: ['brandProductName'],
       additionalProperties: true
     }
   },
+
   {
     name: 'validate_production_output',
     description:
@@ -61,15 +80,25 @@ export const TOOL_DEFINITIONS = [
       properties: {
         storyboards: {
           type: 'array',
-          items: { type: 'object' }
+          items: {
+            type: 'object'
+          }
         },
         videoPrompts: {
           type: 'array'
         },
-        characterContinuityLock: { type: 'string' },
-        productContinuityLock: { type: 'string' },
-        negativePrompt: { type: 'string' },
-        storySummary: { type: 'string' },
+        characterContinuityLock: {
+          type: 'string'
+        },
+        productContinuityLock: {
+          type: 'string'
+        },
+        negativePrompt: {
+          type: 'string'
+        },
+        storySummary: {
+          type: 'string'
+        },
         productionChecklist: {
           type: 'array'
         }
@@ -78,6 +107,7 @@ export const TOOL_DEFINITIONS = [
       additionalProperties: true
     }
   },
+
   {
     name: 'build_production_manifest',
     description:
@@ -86,10 +116,18 @@ export const TOOL_DEFINITIONS = [
     inputSchema: {
       type: 'object',
       properties: {
-        projectName: { type: 'string' },
-        brandProductName: { type: 'string' },
-        targetAudience: { type: 'string' },
-        language: { type: 'string' },
+        projectName: {
+          type: 'string'
+        },
+        brandProductName: {
+          type: 'string'
+        },
+        targetAudience: {
+          type: 'string'
+        },
+        language: {
+          type: 'string'
+        },
         aspectRatio: {
           type: 'string',
           default: '9:16'
@@ -114,7 +152,9 @@ export const TOOL_DEFINITIONS = [
           type: 'boolean',
           default: true
         },
-        cta: { type: 'string' }
+        cta: {
+          type: 'string'
+        }
       },
       required: ['brandProductName'],
       additionalProperties: true
@@ -337,10 +377,7 @@ export function buildManifest(input = {}) {
 // TOOL CALL HANDLER
 // ==========================================
 
-export async function handleToolCall(
-  name,
-  args = {}
-) {
+export async function handleToolCall(name, args = {}) {
   if (name === 'validate_product_brief') {
     return textResult(validateBrief(args));
   }
@@ -434,12 +471,20 @@ export async function handleRpc(message) {
   }
 
   // ========================================
-  // TOOLS LIST WITH EXPLICIT ANNOTATIONS
+  // TOOLS LIST
+  // Explicit annotations for every tool
   // ========================================
 
   if (message.method === 'tools/list') {
     return rpcResponse(id, {
-      tools: TOOL_DEFINITIONS
+      tools: TOOL_DEFINITIONS.map((tool) => ({
+        ...tool,
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          openWorldHint: false
+        }
+      }))
     });
   }
 
@@ -473,4 +518,3 @@ export async function handleRpc(message) {
     `Method not found: ${message.method}`
   );
 }
-
