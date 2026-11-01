@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "wowseru-ai-affiliate-storyboard",
+  "version": "0.1.0",
+  "description": "Create connected AI UGC affiliate storyboards and video prompts from product briefs, audience insights, and visual references.",
+  "author": {
+    "name": "WOWSERU"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "affiliate marketing",
+    "UGC",
+    "storyboard",
+    "video prompts",
+    "content creation"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "WOWSERU AFFILIATE STORYBOARD",
+        "shortDescription": "AI UGC video storyboard",
+        "longDescription": "Turn product information into a complete AI UGC affiliate production package: product and audience analysis, emotional storytelling, three connected six-panel 2×3 storyboards, three continuous video prompts, natural narration, character and product continuity locks, negative prompts, a story summary, and a production checklist. Supports user-requested languages and visual references. It does not generate or render the final images or videos.",
+        "developerName": "WOWSERU",
+        "category": "Creativity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Mulai bikin AI Affiliate Storyboard.",
+          "Buat UGC review untuk produk affiliate saya.",
+          "Bantu analisis produk dan susun tiga scene video affiliate."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png",
+        "brandColor": "#D71952"
+      }
+    }
+  }
+}

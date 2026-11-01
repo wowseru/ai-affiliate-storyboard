@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "wowseru-affiliate-storyboard": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/mcp-server/src/stdio.js"],
+      "cwd": "${PLUGIN_ROOT}"
+    }
+  }
+}
