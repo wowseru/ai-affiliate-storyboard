@@ -98,7 +98,7 @@ export default {
     const url = new URL(request.url);
     // OpenAI domain verification challenge
     if (url.pathname === '/.well-known/openai-apps-challenge' && request.method === 'GET') {
-      return new Response('8a2MsGKE7kdsxuI3lpKoGk1oWBypoZ5Z6F89v5D0pPQ', {
+      return new Response('hMI2Vb3YofRVLqrA7Q-b2_CgvhjOhDrgtyqSohEf7aM', {
         status: 200,
         headers: {
           'content-type': 'text/plain; charset=utf-8',
